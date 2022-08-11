@@ -1,12 +1,13 @@
 import React from "react";
 import { Calendar, CalendarProps } from "react-big-calendar";
 import { addHours } from "date-fns";
-import { Navbar } from "../components";
+import { CalendarEvent, Navbar } from "../components";
 
 import { getMessagesEs, localizer } from "../../helpers";
+import { EventList } from "../types";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-const myEventsList = [
+const myEventsList: EventList[] = [
   {
     title: "Cumpleaños del jefe",
     notes: "Hay que comprar el pastel",
@@ -15,20 +16,18 @@ const myEventsList = [
     bgColor: "#fafafa",
     user: {
       _id: "123",
-      name: "Carlos",
+      name: "Carlos Zabala",
     },
   },
 ];
 
 export const CalendarPage: React.FC = () => {
   const eventStyleGetter = (
-    event: typeof myEventsList[0],
+    event: EventList,
     start: Date,
     end: Date,
     isSelected: boolean
   ) => {
-    console.log({ event, start, end, isSelected });
-
     const style = {
       backgroundColor: "#347CF7",
       borderRadius: "0px",
@@ -52,6 +51,9 @@ export const CalendarPage: React.FC = () => {
         culture="es"
         messages={getMessagesEs()}
         eventPropGetter={eventStyleGetter}
+        components={{
+          event: CalendarEvent,
+        }}
       />
     </>
   );
