@@ -1,5 +1,9 @@
 import React from "react";
 
 export const Register: React.FC = () => {
-  return <div>Register</div>;
+  return (
+    <>
+      <h1>Registro</h1>
+    </>
+  );
 };
