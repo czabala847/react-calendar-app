@@ -6,6 +6,7 @@ import { addHours, differenceInSeconds } from "date-fns";
 import es from "date-fns/locale/es";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useUiStore } from "../../hooks";
 
 registerLocale("es", es);
 
@@ -31,12 +32,12 @@ const initialForm = {
 };
 
 export const CalendarModal: React.FC = () => {
-  const [modalIsOpen, setIsOpen] = useState<boolean>(true);
   const [stateForm, setStateForm] = useState(initialForm);
   const [sendForm, setSendForm] = useState<boolean>(false);
+  const { isDateOpenModal, closeDateModal } = useUiStore();
 
   const onCloseModal = () => {
-    setIsOpen(false);
+    closeDateModal();
   };
 
   const onChangeInput = ({
@@ -84,7 +85,7 @@ export const CalendarModal: React.FC = () => {
 
   return (
     <Modal
-      isOpen={modalIsOpen}
+      isOpen={isDateOpenModal}
       onRequestClose={onCloseModal}
       style={customStyles}
       contentLabel="Example Modal"

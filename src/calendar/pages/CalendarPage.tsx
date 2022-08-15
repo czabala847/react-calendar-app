@@ -4,6 +4,7 @@ import { addHours } from "date-fns";
 
 import { CalendarEvent, CalendarModal, Navbar } from "../components";
 
+import { useUiStore } from "../../hooks";
 import { getMessagesEs, localizer } from "../../helpers";
 import { EventList } from "../types";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -24,6 +25,7 @@ const myEventsList: EventList[] = [
 
 export const CalendarPage: React.FC = () => {
   const [view, setView] = useState(localStorage.getItem("view") || "MONTH");
+  const { openDateModal } = useUiStore();
 
   const eventStyleGetter = (
     event: EventList,
@@ -46,7 +48,7 @@ export const CalendarPage: React.FC = () => {
   };
 
   const onOpenEvent = (event: EventList) => {
-    // console.log(event);
+    openDateModal();
   };
 
   const changeView = (event: string) => {
