@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useState } from "react";
-import { addHours } from "date-fns/esm";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import Modal from "react-modal";
 import DatePicker, { registerLocale } from "react-datepicker";
+import Swal from "sweetalert2";
+import { addHours, differenceInSeconds } from "date-fns";
 import es from "date-fns/locale/es";
-registerLocale("es", es);
 
 import "react-datepicker/dist/react-datepicker.css";
+
+registerLocale("es", es);
 
 const customStyles = {
   content: {
@@ -31,6 +33,7 @@ const initialForm = {
 export const CalendarModal: React.FC = () => {
   const [modalIsOpen, setIsOpen] = useState<boolean>(true);
   const [stateForm, setStateForm] = useState(initialForm);
+  const [sendForm, setSendForm] = useState<boolean>(false);
 
   const onCloseModal = () => {
     setIsOpen(false);
@@ -52,6 +55,33 @@ export const CalendarModal: React.FC = () => {
     });
   };
 
+  const titleValid = useMemo(() => {
+    if (stateForm.title.length === 0 && sendForm) {
+      return "is-invalid";
+    }
+
+    return "";
+  }, [stateForm.title, sendForm]);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setSendForm(true);
+
+    const difference = differenceInSeconds(stateForm.end, stateForm.start);
+
+    if (isNaN(difference) || difference <= 0) {
+      Swal.fire("Error", "Error en las fechas", "error");
+      return;
+    }
+
+    if (stateForm.title.length === 0) {
+      return;
+    }
+
+    console.log(stateForm);
+  };
+
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -64,7 +94,7 @@ export const CalendarModal: React.FC = () => {
     >
       <h1> Nuevo evento </h1>
       <hr />
-      <form className="container">
+      <form className="container" onSubmit={onSubmit}>
         <div className="form-group mb-2">
           <label>Fecha y hora inicio</label>
           <DatePicker
@@ -97,7 +127,7 @@ export const CalendarModal: React.FC = () => {
           <label>Titulo y notas</label>
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${titleValid}`}
             placeholder="Título del evento"
             name="title"
             value={stateForm.title}
