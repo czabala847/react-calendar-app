@@ -10,8 +10,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const myEventsList: EventList[] = [
   {
-    title: "Cumpleaños del jefe",
-    notes: "Hay que comprar el pastel",
+    title: "Evento 1",
+    notes: "....",
     start: new Date(),
     end: addHours(new Date(), 2),
     bgColor: "#fafafa",
