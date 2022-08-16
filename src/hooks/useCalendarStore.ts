@@ -4,6 +4,7 @@ import {
   Event,
   EventDTOCreate,
   onAddEvent,
+  onDeleteEvent,
   onSetActiveEvent,
   onUpdateEvent,
 } from "../store/calendar";
@@ -28,10 +29,16 @@ export const useCalendarStore = () => {
     }
   };
 
+  const startDeleteEvent = () => {
+    dispatch(onDeleteEvent());
+  };
+
   return {
     events,
     activeEvent,
+    isActiveEvent: !!activeEvent,
     handleActiveEvent,
+    startDeleteEvent,
     startSavingEvent,
   };
 };
