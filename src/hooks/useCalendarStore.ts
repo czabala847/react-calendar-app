@@ -5,6 +5,7 @@ import {
   EventDTOCreate,
   onAddEvent,
   onSetActiveEvent,
+  onUpdateEvent,
 } from "../store/calendar";
 
 export const useCalendarStore = () => {
@@ -19,7 +20,8 @@ export const useCalendarStore = () => {
 
   const startSavingEvent = (calendarEven: Event | EventDTOCreate) => {
     if ("_id" in calendarEven) {
-      // guardar
+      //Actualizar
+      dispatch(onUpdateEvent({ ...calendarEven }));
     } else {
       // crear
       dispatch(onAddEvent({ ...calendarEven, _id: new Date().getTime() }));

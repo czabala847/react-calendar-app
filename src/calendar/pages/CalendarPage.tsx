@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { Calendar, Views } from "react-big-calendar";
 
-import { CalendarEvent, CalendarModal, Navbar } from "../components";
+import { CalendarEvent, CalendarModal, FabAddNew, Navbar } from "../components";
 
 import { useCalendarStore, useUiStore } from "../../hooks";
 import { getMessagesEs, localizer } from "../../helpers";
 import { EventList } from "../types";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Event, EventDTOCreate } from "../../store/calendar";
-import { FabAddNew } from "../components/FabAddNew";
-
 export const CalendarPage: React.FC = () => {
   const [view, setView] = useState(localStorage.getItem("view") || "MONTH");
   const { openDateModal } = useUiStore();
@@ -31,7 +29,7 @@ export const CalendarPage: React.FC = () => {
     return { style };
   };
 
-  const onSelectEvent = (event: Event | EventDTOCreate) => {
+  const onSelectEvent = (event: Event) => {
     handleActiveEvent(event);
   };
 
@@ -60,7 +58,7 @@ export const CalendarPage: React.FC = () => {
         components={{
           event: CalendarEvent,
         }}
-        onSelectEvent={onSelectEvent}
+        onSelectEvent={(event) => onSelectEvent(event as Event)}
         onDoubleClickEvent={onOpenEvent}
         onView={changeView}
       />

@@ -34,8 +34,19 @@ export const calendarSlice = createSlice({
       state.events.push(action.payload);
       state.activeEvent = null;
     },
+
+    onUpdateEvent: (state, action: PayloadAction<Event>) => {
+      state.events = state.events.map((event) => {
+        if (event._id === action.payload._id) {
+          return action.payload;
+        }
+
+        return event;
+      });
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { onSetActiveEvent, onAddEvent } = calendarSlice.actions;
+export const { onSetActiveEvent, onAddEvent, onUpdateEvent } =
+  calendarSlice.actions;
