@@ -1,12 +1,13 @@
-import React, { ChangeEvent, useMemo, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
 import Modal from "react-modal";
 import DatePicker, { registerLocale } from "react-datepicker";
 import Swal from "sweetalert2";
 import { addHours, differenceInSeconds } from "date-fns";
 import es from "date-fns/locale/es";
 
+import { useCalendarStore, useUiStore } from "../../hooks";
+import { Event, EventDTOCreate } from "../../store/calendar";
 import "react-datepicker/dist/react-datepicker.css";
-import { useUiStore } from "../../hooks";
 
 registerLocale("es", es);
 
@@ -24,17 +25,33 @@ const customStyles = {
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
-const initialForm = {
+const initialForm: Event | EventDTOCreate = {
+  title: "",
   start: new Date(),
   end: addHours(new Date(), 2),
-  title: "",
   notes: "",
+  bgColor: "",
+  user: {
+    _id: "",
+    name: "",
+  },
 };
 
 export const CalendarModal: React.FC = () => {
-  const [stateForm, setStateForm] = useState(initialForm);
+  const [stateForm, setStateForm] = useState<Event | EventDTOCreate>(
+    initialForm
+  );
   const [sendForm, setSendForm] = useState<boolean>(false);
   const { isDateOpenModal, closeDateModal } = useUiStore();
+  const { activeEvent, startSavingEvent } = useCalendarStore();
+
+  useEffect(() => {
+    if (activeEvent !== null) {
+      setStateForm({ ...activeEvent });
+    } else {
+      setStateForm(initialForm);
+    }
+  }, [activeEvent]);
 
   const onCloseModal = () => {
     closeDateModal();
@@ -80,7 +97,9 @@ export const CalendarModal: React.FC = () => {
       return;
     }
 
-    console.log(stateForm);
+    startSavingEvent(stateForm);
+    setSendForm(false);
+    onCloseModal();
   };
 
   return (

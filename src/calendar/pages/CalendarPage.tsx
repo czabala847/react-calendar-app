@@ -7,11 +7,13 @@ import { useCalendarStore, useUiStore } from "../../hooks";
 import { getMessagesEs, localizer } from "../../helpers";
 import { EventList } from "../types";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { Event, EventDTOCreate } from "../../store/calendar";
+import { FabAddNew } from "../components/FabAddNew";
 
 export const CalendarPage: React.FC = () => {
   const [view, setView] = useState(localStorage.getItem("view") || "MONTH");
   const { openDateModal } = useUiStore();
-  const { events } = useCalendarStore();
+  const { events, handleActiveEvent } = useCalendarStore();
 
   const eventStyleGetter = (
     event: EventList,
@@ -29,8 +31,8 @@ export const CalendarPage: React.FC = () => {
     return { style };
   };
 
-  const onSelectEvent = (event: EventList) => {
-    // console.log(event);
+  const onSelectEvent = (event: Event | EventDTOCreate) => {
+    handleActiveEvent(event);
   };
 
   const onOpenEvent = (event: EventList) => {
@@ -64,6 +66,8 @@ export const CalendarPage: React.FC = () => {
       />
 
       <CalendarModal />
+
+      <FabAddNew />
     </>
   );
 };

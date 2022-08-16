@@ -4,6 +4,7 @@ export interface calendarState {
 }
 
 export interface Event {
+  _id: number;
   title: string;
   notes: string;
   start: Date;
@@ -11,6 +12,8 @@ export interface Event {
   bgColor: string;
   user: User;
 }
+
+export interface EventDTOCreate extends Omit<Event, "_id"> {}
 
 export interface User {
   _id: string;
