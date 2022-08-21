@@ -5,7 +5,7 @@ import { Login } from "../auth/pages";
 import { CalendarPage } from "../calendar/pages";
 
 export const AppRouter: React.FC = () => {
-  const authStatus: string = "authenticated";
+  const authStatus: string = "no-authenticated";
 
   return (
     <Routes>
