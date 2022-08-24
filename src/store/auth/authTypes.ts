@@ -6,6 +6,11 @@ export enum Status {
 
 export interface AuthState {
   status: Status;
-  user: null | {};
+  user: null | AuthUser;
   errorMessage: string | undefined;
+}
+
+export interface AuthUser {
+  name: string;
+  uid: string;
 }
