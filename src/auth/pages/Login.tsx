@@ -27,7 +27,7 @@ export const Login: React.FC = () => {
   const { registerName, registerEmail, registerPassword, registerPassword2 } =
     stateRegister;
 
-  const { startLogin, errorMessage } = useAuthStore();
+  const { errorMessage, startLogin, startRegister } = useAuthStore();
 
   const onLogin = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +36,17 @@ export const Login: React.FC = () => {
 
   const onSubmitRegister = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(stateRegister);
+
+    if (registerPassword !== registerPassword2) {
+      Swal.fire(
+        "Error en el registro",
+        "Las contraseñas no son iguales",
+        "error"
+      );
+      return;
+    }
+
+    startRegister(registerName, registerEmail, registerPassword);
   };
 
   useEffect(() => {
