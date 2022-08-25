@@ -21,9 +21,15 @@ export const AppRouter: React.FC = () => {
   return (
     <Routes>
       {status === "NO_AUTHENTICATED" ? (
-        <Route path="/auth/*" element={<Login />} />
+        <>
+          <Route path="/auth/*" element={<Login />} />
+          <Route path="/*" element={<Navigate to="/auth/" />} />
+        </>
       ) : (
-        <Route path="/*" element={<CalendarPage />} />
+        <>
+          <Route path="/" element={<CalendarPage />} />
+          <Route path="/*" element={<Navigate to="/" />} />
+        </>
       )}
       <Route path="/*" element={<Navigate to="/auth/login" />} />
     </Routes>

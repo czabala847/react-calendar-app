@@ -76,12 +76,18 @@ export const useAuthStore = () => {
     }
   };
 
+  const startLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(onLogout());
+  };
+
   return {
+    checkAuthToken,
+    errorMessage,
+    startLogin,
+    startLogout,
+    startRegister,
     status,
     user,
-    errorMessage,
-    checkAuthToken,
-    startLogin,
-    startRegister,
   };
 };
