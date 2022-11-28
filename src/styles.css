@@ -46,6 +46,7 @@
     padding: 15px;
     position: fixed;
     right: 25px;
+    z-index: 1000;
 }
 
 .fab-remove{
@@ -58,4 +59,5 @@
     line-height: 15px;
     position: fixed;
     left: 25px;
+    z-index: 1000;
 }

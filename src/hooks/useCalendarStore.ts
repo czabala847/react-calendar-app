@@ -8,24 +8,36 @@ import {
   onSetActiveEvent,
   onUpdateEvent,
 } from "../store/calendar";
+import calendarApi from "../api/calendarApi";
 
 export const useCalendarStore = () => {
   const { events, activeEvent } = useSelector(
     (state: RootState) => state.calendar
   );
+  const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   const handleActiveEvent = (calendarEvent: Event | null) => {
     dispatch(onSetActiveEvent(calendarEvent));
   };
 
-  const startSavingEvent = (calendarEven: Event | EventDTOCreate) => {
-    if ("_id" in calendarEven) {
+  const startSavingEvent = async (calendarEven: Event | EventDTOCreate) => {
+    if ("id" in calendarEven) {
       //Actualizar
       dispatch(onUpdateEvent({ ...calendarEven }));
     } else {
       // crear
-      dispatch(onAddEvent({ ...calendarEven, _id: new Date().getTime() }));
+
+      const { data } = await calendarApi.post("/events", calendarEven);
+      if (user) {
+        dispatch(
+          onAddEvent({
+            ...calendarEven,
+            id: data.event.id,
+            user,
+          })
+        );
+      }
     }
   };
 

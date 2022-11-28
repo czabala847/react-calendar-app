@@ -32,7 +32,7 @@ const initialForm: Event | EventDTOCreate = {
   notes: "",
   bgColor: "",
   user: {
-    _id: "",
+    uid: "",
     name: "",
   },
 };
